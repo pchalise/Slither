@@ -13,9 +13,13 @@
 				type = "text/css"
 				href = "styles.css"
 			/>
-		
-		<script src=" http://code.jquery.com/jquery-1.11.3.min.js"></script>	
+
+		<div id="particles-js">	</div>
+		<script src="particles.js"></script>
 	</head>
+
+<body ng-class="{'book-navigation-visible': navigationVisible == true, 'book-search-visible': searchVisible == true, 'night-mode': $root.nightMode == 'on', 'home-sweet-home': $root.homeSweetHome == true}" class="book-navigation-visible home-sweet-home" data-new-gr-c-s-check-loaded="14.1050.0" data-gr-ext-installed=""><div id="MathJax_Message" style="display: none;"></div>
+  <script src="particles.js"></script>
 
 <body>
 		<a href = "index.html">
@@ -29,10 +33,39 @@
 		<a href = "paper.html">
 			paper.
 		</a>
-		<hr></hr>
-<div class = "sylesheet">		
-		<h1 class = "head" id="title"> Slither </h1>
-</div>
+		<hr>
 
+<div id = "particles-js" class = "ng-scope">
+<center>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+		<h1 class = "head" id="title"> slither. </h1>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<form>
+<label for="i">input grid size.</label>
+
+<br>
+<br>
+
+<input type="number" id="i" name="i" size = "200">
+  X
+  <input type="number" id="j" name="j" size = "200">
+</form>
+<button>
+	submit.
+</button>
+</center>
+</div>
 </body>
 </html>
