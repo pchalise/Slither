@@ -1,0 +1,21 @@
+.head{
+	font-family: sans-serif;
+	font-size: 60pt;
+	color: lightpink;
+	}
+		
+body{
+	background: black;
+	color:  white;
+	}
+	
+	
+a{
+	color: lightgoldenrodyellow;
+	text-decoration: none;
+	}
+		
+a:hover{
+	color: orange;
+	}
+
