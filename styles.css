@@ -1,3 +1,18 @@
+html, body {
+  margin: 0;
+  /* overflow: hidden; */
+}
+
+canvas {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.body{
+    position: absolute;
+    top: 0;
+}
+
 .head{
 	font-family: sans-serif;
 	font-size: 60pt;
@@ -19,3 +34,7 @@ a:hover{
 	color: orange;
 	}
 
+
+.body h1{
+    color: white;
+}
