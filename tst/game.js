@@ -9,6 +9,7 @@ function setup() {
   canvas = createCanvas(windowWidth, windowHeight);
   MIDW = windowWidth / 2;
   MIDH = windowHeight / 2;
+
   ctx = canvas.elt.getContext("2d");
   noSmooth();
   ctx.mozImageSmoothingEnabled = false;
@@ -16,14 +17,25 @@ function setup() {
   ctx.msImageSmoothingEnabled = false;
   ctx.imageSmoothingEnabled = false;
   background(0);
+
+  const width = +dim_in.get("width") || 15;
+  const height = +dim_in.get("height") || 5;
+
+  const PADW = width + 0.5;
+  const PADH = height + 0.5;
+
+  let size = windowHeight / PADH;
+  if (width > height) size = windowWidth / PADW;
+
   const param = {
-    x: 20,
-    y: 20,
-    width: +dim_in.get("width") || 10,
-    height: +dim_in.get("height") || 10,
-    size: 50,
+    x: Math.floor(MIDW - ((width - 1) * size) / 2),
+    y: Math.floor(MIDH - ((height - 1) * size) / 2),
+    width,
+    height,
+    size,
     p_num: 2,
   };
+
   grph = new ChessGraph(param);
 }
 
@@ -33,5 +45,6 @@ function mouseClicked() {
 
 function draw() {
   background(0);
+  // console.log(mouseX - MIDW, mouseY - MIDH);
   grph.draw();
 }
