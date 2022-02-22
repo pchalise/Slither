@@ -88,15 +88,19 @@ class ChessGraph {
   handleMouseClick() {
     const edge = this.edges[this.hoverIndex];
     const { na, nb } = edge;
+
+    const dx = this.X - 1,
+      dy = this.Y - 1;
+
     const [nax, nay] = [
-      Math.floor(na.x / this.size),
-      Math.floor(na.y / this.size),
+      Math.floor((na.x - dx) / this.size),
+      Math.floor((na.y - dy) / this.size),
     ];
     const node_a = this.nodes[nax][nay];
 
     const [nbx, nby] = [
-      Math.floor(nb.x / this.size),
-      Math.floor(nb.y / this.size),
+      Math.floor((nb.x - dx) / this.size),
+      Math.floor((nb.y - dy) / this.size),
     ];
     const node_b = this.nodes[nbx][nby];
 
