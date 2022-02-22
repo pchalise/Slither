@@ -19,8 +19,8 @@ function setup() {
   const param = {
     x: 20,
     y: 20,
-    width: dim_in.get("width") ?? 10,
-    height: dim_in.get("height") ?? 10,
+    width: +dim_in.get("width") ?? 10,
+    height: +dim_in.get("height") ?? 10,
     size: 50,
     p_num: 2,
   };
