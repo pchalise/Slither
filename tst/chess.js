@@ -69,6 +69,7 @@ class ChessGraph {
       color(100, 250, 100),
       color(220, 220, 220),
     ];
+
     this.nodes = Array(width)
       .fill(null)
       .map(() => Array(height).fill(1));
@@ -78,11 +79,23 @@ class ChessGraph {
     this.curr_p = 0;
     this.isFirstClick = true;
 
+    this.moves = [];
+
     this.buildNetwork();
   }
 
   canReach(a, b) {
     return (a === 1) ^ (b === 1) && a !== 2 && b !== 2;
+  }
+
+  updateMoves(x, y, erase = true) {
+    if (erase) this.moves = [];
+    if (x < width - 1 && this.nodes[x + 1][y] !== 2)
+      this.moves.push(x + 1 + "" + y);
+    if (y < height - 1 && this.nodes[x][y + 1] !== 2)
+      this.moves.push(x + "" + y + 1);
+    if (y > 0 && this.nodes[x][y - 1] !== 2) this.moves.push(x + "" + y - 1);
+    if (x > 0 && this.nodes[x - 1][y] !== 2) this.moves.push(x - 1 + "" + y);
   }
 
   handleMouseClick() {
@@ -118,6 +131,9 @@ class ChessGraph {
       this.nodes[nbx][nby]++;
 
       this.curr_p = (this.curr_p + 1) % this.p_num;
+
+      if (this.nodes[nax][nay] !== 2) this.updateMoves(nax, nay);
+      if (this.nodes[nbx][nby] !== 2) this.updateMoves(nbx, nby, false);
       this.isFirstClick = false;
     }
   }
@@ -140,7 +156,11 @@ class ChessGraph {
     this.nodes.forEach((lin, x) =>
       lin.forEach((node, y) => {
         noStroke();
-        fill(this.node_colors[node]);
+        const clr =
+          this.moves.indexOf(x + "" + y) !== -1
+            ? this.node_colors[1]
+            : this.node_colors[node];
+        fill(clr);
         circle(x * this.size + this.X, y * this.size + this.Y, 5);
       })
     );

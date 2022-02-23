@@ -18,8 +18,8 @@ function setup() {
   ctx.imageSmoothingEnabled = false;
   background(0);
 
-  const width = +dim_in.get("width") || 15;
-  const height = +dim_in.get("height") || 5;
+  const width = +dim_in.get("width") || 10;
+  const height = +dim_in.get("height") || 15;
 
   const PADW = width + 0.5;
   const PADH = height + 0.5;
