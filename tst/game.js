@@ -6,7 +6,7 @@ let PCLRS;
 let bots = new Set();
 
 let SIM_STEPS = 0;
-let HIST;
+let HIST = [0];
 let INIT = true;
 
 let gameState;
@@ -102,12 +102,12 @@ function getBotMove() {
 function showLosses() {
   textSize(20);
   textAlign(LEFT);
-  noStroke();
-  strokeWeight(2);
+  stroke(250);
+  strokeWeight(1);
   fill(250);
   const total = HIST.reduce((a, b) => a + b);
   const hist_txt = HIST.map((e) => Math.floor(100 * (e / total))).join(" ");
-  text(hist_txt, 20, 20);
+  text(hist_txt, 20, 30);
 }
 
 function mouseClicked() {
@@ -143,14 +143,16 @@ function playGame() {
 }
 
 function endGame() {
+  if (SIM_STEPS-- > 0) {
+    // background(0);
+    HIST[LOSER]++;
+    gameState = gameSetup;
+    return;
+  }
   textAlign(CENTER);
   textSize(TILE_SIZE / 2);
   stroke(0);
   strokeWeight(4);
   fill(PCLRS[Math.min(LOSER, PCLRS.length - 1)]);
   text(`${LOSER + 1} loses!`, windowWidth / 2, windowHeight / 2);
-  if (SIM_STEPS-- > 0) {
-    HIST[LOSER]++;
-    gameState = gameSetup;
-  }
 }
