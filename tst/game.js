@@ -1,6 +1,11 @@
 let canvas;
 let grph;
 let MIDW, MIDH;
+let TILE_SIZE;
+
+let gameState;
+
+let WINNER;
 
 const dim_in = new URLSearchParams(window.location.search);
 
@@ -23,6 +28,7 @@ function setup() {
   const PADW = width + 2;
   const PADH = height + 2;
   let size = Math.min(windowHeight, windowWidth) / Math.min(PADH, PADW);
+  TILE_SIZE = size;
 
   const param = {
     x: Math.floor(MIDW - ((width - 1) * size) / 2),
@@ -34,6 +40,7 @@ function setup() {
   };
 
   grph = new ChessGraph(param);
+  gameState = playGame;
 }
 
 function mouseClicked() {
@@ -41,7 +48,23 @@ function mouseClicked() {
 }
 
 function draw() {
+  gameState();
+}
+
+function playGame() {
   background(0);
-  // console.log(mouseX - MIDW, mouseY - MIDH);
+  if (grph.valid_moves.length === 0 && !grph.isFirstClick) {
+    gameState = endGame;
+    WINNER = grph.move_number % grph.p_num;
+  }
   grph.draw();
+}
+
+function endGame() {
+  textAlign(CENTER);
+  textSize(TILE_SIZE / 2);
+  stroke(0);
+  strokeWeight(4);
+  fill(200);
+  text(`${WINNER} wins!`, windowWidth / 2, windowHeight / 2);
 }

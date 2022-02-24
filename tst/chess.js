@@ -4,7 +4,7 @@ class Edge {
     this.na = na;
     this.nb = nb;
     this.state = 0;
-    this.strk = [9, 10, 12, 12];
+    this.strk = [9, 12, 12, 12];
     this.color = [
       color(100, 100, 100, 50),
       color(100, 100, 100, 90),
@@ -58,7 +58,7 @@ class ChessGraph {
     this.X = x;
     this.Y = y;
     /*
-    0 - ON state
+    0 - reach state
     1 - on state
     2 - off state
 
@@ -85,6 +85,7 @@ class ChessGraph {
       [-1, -1],
     ];
     this.ctip = 0;
+    this.move_number = 0;
 
     this.valid_moves = [];
 
@@ -150,6 +151,8 @@ class ChessGraph {
       this.curr_p = (this.curr_p + 1) % this.p_num;
 
       this.isFirstClick = false;
+
+      this.move_number++;
     }
   }
 
