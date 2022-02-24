@@ -68,6 +68,6 @@ function endGame() {
   textSize(TILE_SIZE / 2);
   stroke(0);
   strokeWeight(4);
-  fill(PCLRS[LOSER]);
+  fill(PCLRS[Math.min(LOSER, PCLRS.length - 1)]);
   text(`${LOSER + 1} loses!`, windowWidth / 2, windowHeight / 2);
 }
