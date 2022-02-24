@@ -4,13 +4,8 @@ class Edge {
     this.na = na;
     this.nb = nb;
     this.state = 0;
-    this.strk = [9, 12, 12, 12];
-    this.color = [
-      color(100, 100, 100, 50),
-      color(100, 100, 100, 90),
-      color(20, 20, 160),
-      color(160, 20, 20),
-    ];
+    this.strk = [9, 12, 12];
+    this.color = [color(100, 100, 100, 50), color(100, 100, 100, 90), ...PCLRS];
     this.max_state = this.strk.length;
 
     this.isHover = true;
@@ -18,8 +13,8 @@ class Edge {
 
   draw() {
     const { na, nb, strk, state, color } = this;
-    strokeWeight(strk[state]);
-    stroke(color[state]);
+    strokeWeight(strk[Math.min(state, strk.length - 1)]);
+    stroke(color[Math.min(state, color.length - 1)]);
     line(na.x, na.y, nb.x, nb.y);
   }
 
@@ -175,7 +170,7 @@ class ChessGraph {
       lin.forEach((node, y) => {
         noStroke();
         let clr = this.node_colors[node];
-        let radius = 10;
+        let radius = 12.2;
 
         if (node === ON) {
           this.tips[this.ctip][0] = x;
