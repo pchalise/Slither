@@ -91,29 +91,48 @@ class ChessGraph {
     return (a === ON) ^ (b === ON) && a !== OFF && b !== OFF;
   }
 
-  updateReach() {
+  neighborsOf(x, y, type) {
     const { nodes } = this;
+    const valid = [];
+    if (x > 0 && nodes[x - 1][y] === type) valid.push([x - 1, y]);
+    if (y > 0 && nodes[x][y - 1] === type) valid.push([x, y - 1]);
+    if (x < this.width - 1 && nodes[x + 1][y] === type) valid.push([x + 1, y]);
+    if (y < this.height - 1 && nodes[x][y + 1] === type) valid.push([x, y + 1]);
+    return valid;
+  }
+
+  updateReach() {
     this.valid_moves = [];
-    nodes.forEach((row, x) => {
+    this.nodes.forEach((row, x) => {
       row.forEach((node, y) => {
         if (node === ON) {
-          if (x > 0 && nodes[x - 1][y] === REACH)
-            this.valid_moves.push([x - 1, y]);
-          if (y > 0 && nodes[x][y - 1] === REACH)
-            this.valid_moves.push([x, y - 1]);
-          if (x < this.width - 1 && nodes[x + 1][y] === REACH)
-            this.valid_moves.push([x + 1, y]);
-          if (y < this.height - 1 && nodes[x][y + 1] === REACH)
-            this.valid_moves.push([x, y + 1]);
+          this.valid_moves.push(...this.neighborsOf(x, y, REACH));
         }
       });
     });
   }
 
-  handleMouseClick() {
-    const edge = this.edges[this.hoverIndex];
-    const { na, nb } = edge;
+  handleInput(type = "player", bot_move) {
+    if (type === "no") return;
+    if (type === "player") {
+      this.handleMouseClick();
+      return;
+    }
+    this.edgeInteraction(bot_move);
+  }
 
+  getEdge(opts) {
+    const { nax, nay, nbx, nby } = opts;
+    return this.edges.find((edge) => {
+      const [ax, ay, bx, by] = this.convertEdgeXY(edge.na, edge.nb);
+      return (
+        (nay === ay && nax === ax && nby === by && nbx === bx) ||
+        (nby === ay && nbx === ax && nay === by && nax === bx)
+      );
+    });
+  }
+
+  convertEdgeXY(na, nb) {
     const dx = this.X - 1,
       dy = this.Y - 1;
 
@@ -121,34 +140,44 @@ class ChessGraph {
       Math.floor((na.x - dx) / this.size),
       Math.floor((na.y - dy) / this.size),
     ];
-    const node_a = this.nodes[nax][nay];
 
     const [nbx, nby] = [
       Math.floor((nb.x - dx) / this.size),
       Math.floor((nb.y - dy) / this.size),
     ];
+
+    return [nax, nay, nbx, nby];
+  }
+
+  handleMouseClick() {
+    const edge = this.edges[this.hoverIndex];
+    const { na, nb } = edge;
+
+    const [nax, nay, nbx, nby] = this.convertEdgeXY(na, nb);
+
+    const node_a = this.nodes[nax][nay];
     const node_b = this.nodes[nbx][nby];
 
-    if (
-      this.isHovering &&
-      (this.canReach(node_a, node_b) || this.isFirstClick)
-    ) {
-      if (this.isFirstClick) {
-        this.nodes = Array(this.width)
-          .fill(null)
-          .map(() => Array(this.height).fill(0));
-      }
-      edge.handleClick(this.curr_p + 2);
-      this.nodes[nax][nay]++;
-      this.nodes[nbx][nby]++;
+    if (this.isHovering && (this.canReach(node_a, node_b) || this.isFirstClick))
+      this.edgeInteraction({ nax, nay, nbx, nby, edge });
+  }
 
-      this.updateReach();
-      this.curr_p = (this.curr_p + 1) % this.p_num;
-
-      this.isFirstClick = false;
-
-      this.move_number++;
+  edgeInteraction({ nax, nay, nbx, nby, edge }) {
+    if (this.isFirstClick) {
+      this.nodes = Array(this.width)
+        .fill(null)
+        .map(() => Array(this.height).fill(0));
     }
+    edge.handleClick(this.curr_p + 2);
+    this.nodes[nax][nay]++;
+    this.nodes[nbx][nby]++;
+
+    this.updateReach();
+    this.curr_p = (this.curr_p + 1) % this.p_num;
+
+    this.isFirstClick = false;
+
+    this.move_number++;
   }
 
   handleMouse() {
