@@ -21,11 +21,10 @@ function setup() {
   const width = +dim_in.get("width") || 10;
   const height = +dim_in.get("height") || 15;
 
-  const PADW = width + 0.5;
-  const PADH = height + 0.5;
+  const PADW = width + 2;
+  const PADH = height + 2;
 
-  let size = windowHeight / PADH;
-  if (width > height) size = windowWidth / PADW;
+  let size = Math.min(windowHeight, windowWidth) / Math.min(PADH, PADW);
 
   const param = {
     x: Math.floor(MIDW - ((width - 1) * size) / 2),
