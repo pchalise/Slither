@@ -1,0 +1,89 @@
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>
+			Slither - Paper
+		</title>
+			
+		<link rel = "stylesheet"
+				type = "text/css"
+				href = "bootstrap.css"
+			/>
+		
+		<link rel = "stylesheet"
+				type = "text/css"
+				href = "styles.css"
+			/>
+		
+		<script src=" http://code.jquery.com/jquery-1.11.3.min.js"></script>	
+	</head>
+
+<body>
+		<a href = "index.html">
+			home.
+		</a>
+		&nbsp;
+		<a href = "rules.html">
+			rules.
+		</a>
+		&nbsp;
+		<a href = "paper.pdf">
+			paper.
+		</a>
+		&nbsp;
+		<a href = "simul.html">
+			simulation.
+		</a>
+<hr>
+<body>
+<text color ="grey">
+Here, you will see the proportions of times players lose, consecutively.
+<br>
+Here, you will see the count of simulations.
+</text>
+<div class = "centered">
+<center>
+<br>
+<div>
+<br>
+<br>
+<h1 class = "head" id="title">
+simulation.
+</h1>
+</div><br>
+<br>
+
+<form action = "tst/game.html">
+<label for="players">Computer-vs-Computer:</label>
+<br>
+<select name="players" id="players">
+  <option type="text" value="2"> 2-players </option>
+</select>
+<select name="sim" id="sim">
+  <option type="number"> 10 </option>
+  <option type="number"> 50 </option>
+  <option type="number"> 100 </option>
+  <option type="number"> 1000 </option>
+</select>
+
+<br>
+<br>
+<br>
+
+
+
+input grid size.
+<br>
+<br>
+<input type="number" name="width"> X <input type="number" name="height">
+<input type="hidden" name="bots" value="1,2">
+<br>
+<br>
+<input type = "submit" value = "submit.">
+</form>
+</center>
+<div>
+
+</body>
+</html>
