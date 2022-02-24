@@ -5,6 +5,10 @@ let TILE_SIZE;
 let PCLRS;
 let bots = new Set();
 
+let SIM_STEPS = 0;
+let HIST;
+let INIT = true;
+
 let gameState;
 
 let LOSER;
@@ -32,7 +36,16 @@ function gameSetup() {
   const width = +dim_in.get("width") || 10;
   const height = +dim_in.get("height") || 15;
   const p_num = +dim_in.get("players") || 2;
-  const bot_in = dim_in.get("bots") || "";
+  const bot_in = dim_in.get("bots");
+  const sim = +dim_in.get("sim") || "no";
+
+  if (sim !== "no") {
+    SIM_STEPS = sim;
+    if (INIT) {
+      INIT = false;
+      HIST = new Array(p_num).fill(0);
+    }
+  }
 
   bot_in.split(",").forEach((b) => bots.add(+b - 1));
 
@@ -57,12 +70,9 @@ function gameSetup() {
 function getBotMove() {
   let bot_move = {};
   if (grph.isFirstClick) {
-    bot_move.nax = 0;
-    bot_move.nay = 0;
-
-    bot_move.nbx = 1;
-    bot_move.nby = 0;
-    bot_move.edge = grph.getEdge(bot_move);
+    bot_move.edge = grph.edges[Math.floor(random(grph.edges.length))];
+    [bot_move.nax, bot_move.nay, bot_move.nbx, bot_move.nby] =
+      grph.convertEdgeXY(bot_move.edge.na, bot_move.edge.nb);
   } else {
     const move_setup = () => {
       const move_index = Math.floor(random(grph.valid_moves.length));
@@ -89,6 +99,17 @@ function getBotMove() {
   return bot_move;
 }
 
+function showLosses() {
+  textSize(20);
+  textAlign(LEFT);
+  noStroke();
+  strokeWeight(2);
+  fill(250);
+  const total = HIST.reduce((a, b) => a + b);
+  const hist_txt = HIST.map((e) => Math.floor(100 * (e / total))).join(" ");
+  text(hist_txt, 20, 20);
+}
+
 function mouseClicked() {
   if (gameState === endGame) {
     gameState = gameSetup;
@@ -104,6 +125,7 @@ function mouseClicked() {
 
 function draw() {
   gameState();
+  if (!INIT) showLosses();
 }
 
 function playGame() {
@@ -127,4 +149,8 @@ function endGame() {
   strokeWeight(4);
   fill(PCLRS[Math.min(LOSER, PCLRS.length - 1)]);
   text(`${LOSER + 1} loses!`, windowWidth / 2, windowHeight / 2);
+  if (SIM_STEPS-- > 0) {
+    HIST[LOSER]++;
+    gameState = gameSetup;
+  }
 }
