@@ -36,7 +36,7 @@ function gameSetup() {
   const width = +dim_in.get("width") || 10;
   const height = +dim_in.get("height") || 15;
   const p_num = +dim_in.get("players") || 2;
-  const bot_in = dim_in.get("bots");
+  const bot_in = dim_in.get("bots") || "";
   const sim = +dim_in.get("sim") || "no";
 
   if (sim !== "no" && INIT) {
