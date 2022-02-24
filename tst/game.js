@@ -25,9 +25,9 @@ function setup() {
   const width = +dim_in.get("width") || 10;
   const height = +dim_in.get("height") || 15;
 
-  const PADW = width + 2;
-  const PADH = height + 2;
-  let size = Math.min(windowHeight, windowWidth) / Math.min(PADH, PADW);
+  const PADW = width + 0.5;
+  const PADH = height + 0.5;
+  let size = Math.min(windowHeight, windowWidth) / Math.max(PADH, PADW);
   TILE_SIZE = size;
 
   const param = {

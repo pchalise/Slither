@@ -183,7 +183,6 @@ class ChessGraph {
           this.ctip = (this.ctip + 1) % 2;
         }
         if (this.valid_moves.some((n) => n[0] === x && n[1] === y)) {
-          radius = 15;
           clr = this.node_colors[1];
           stroke(200);
           strokeWeight(2);
