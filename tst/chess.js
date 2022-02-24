@@ -1,14 +1,15 @@
+const [REACH, ON, OFF] = [0, 1, 2];
 class Edge {
   constructor(na, nb) {
     this.na = na;
     this.nb = nb;
     this.state = 0;
-    this.strk = [5, 8, 8, 8];
+    this.strk = [9, 10, 12, 12];
     this.color = [
       color(100, 100, 100, 50),
       color(100, 100, 100, 90),
-      color(120, 120, 250),
-      color(250, 120, 120),
+      color(20, 20, 160),
+      color(160, 20, 20),
     ];
     this.max_state = this.strk.length;
 
@@ -57,16 +58,16 @@ class ChessGraph {
     this.X = x;
     this.Y = y;
     /*
-    0 - unreachable state
-    1 - reachable state
+    0 - ON state
+    1 - on state
     2 - off state
 
     An edge can be created if one of its nodes is reachable and
     nonde of them is off
     */
     this.node_colors = [
-      color(250, 100, 100),
-      color(100, 250, 100),
+      color(120, 50, 50),
+      color(50, 120, 50),
       color(220, 220, 220),
     ];
 
@@ -79,14 +80,39 @@ class ChessGraph {
     this.curr_p = 0;
     this.isFirstClick = true;
 
+    this.tips = [
+      [-1, -1],
+      [-1, -1],
+    ];
+    this.ctip = 0;
+
+    this.valid_moves = [];
+
     this.buildNetwork();
   }
 
   canReach(a, b) {
-    return (a === 1) ^ (b === 1) && a !== 2 && b !== 2;
+    return (a === ON) ^ (b === ON) && a !== OFF && b !== OFF;
   }
 
-  updateMoves(x, y, erase = true) {}
+  updateReach() {
+    const { nodes } = this;
+    this.valid_moves = [];
+    nodes.forEach((row, x) => {
+      row.forEach((node, y) => {
+        if (node === ON) {
+          if (x > 0 && nodes[x - 1][y] === REACH)
+            this.valid_moves.push([x - 1, y]);
+          if (y > 0 && nodes[x][y - 1] === REACH)
+            this.valid_moves.push([x, y - 1]);
+          if (x < this.width - 1 && nodes[x + 1][y] === REACH)
+            this.valid_moves.push([x + 1, y]);
+          if (y < this.height - 1 && nodes[x][y + 1] === REACH)
+            this.valid_moves.push([x, y + 1]);
+        }
+      });
+    });
+  }
 
   handleMouseClick() {
     const edge = this.edges[this.hoverIndex];
@@ -120,6 +146,7 @@ class ChessGraph {
       this.nodes[nax][nay]++;
       this.nodes[nbx][nby]++;
 
+      this.updateReach();
       this.curr_p = (this.curr_p + 1) % this.p_num;
 
       this.isFirstClick = false;
@@ -144,9 +171,22 @@ class ChessGraph {
     this.nodes.forEach((lin, x) =>
       lin.forEach((node, y) => {
         noStroke();
-        const clr = this.node_colors[node];
+        let clr = this.node_colors[node];
+        let radius = 10;
+
+        if (node === ON) {
+          this.tips[this.ctip][0] = x;
+          this.tips[this.ctip][1] = y;
+          this.ctip = (this.ctip + 1) % 2;
+        }
+        if (this.valid_moves.some((n) => n[0] === x && n[1] === y)) {
+          radius = 15;
+          clr = this.node_colors[1];
+          stroke(200);
+          strokeWeight(2);
+        }
         fill(clr);
-        circle(x * this.size + this.X, y * this.size + this.Y, 5);
+        circle(x * this.size + this.X, y * this.size + this.Y, radius);
       })
     );
     this.handleMouse();
