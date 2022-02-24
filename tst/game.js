@@ -29,6 +29,7 @@ function setup() {
 }
 
 function gameSetup() {
+  frameRate(60);
   MIDW = windowWidth / 2;
   MIDH = windowHeight / 2;
   PCLRS = [color(20, 20, 160), color(160, 20, 20), color(20, 160, 20)];
@@ -142,8 +143,9 @@ function playGame() {
 }
 
 function endGame() {
-  if (SIM_STEPS-- > 0) {
+  if (SIM_STEPS > 0) {
     // background(0);
+    SIM_STEPS--;
     HIST[LOSER]++;
     gameState = gameSetup;
     return;
