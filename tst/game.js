@@ -24,8 +24,6 @@ function setup() {
   const PADW = width + 2;
   const PADH = height + 2;
 
-  let size = Math.min(windowHeight, windowWidth) / Math.min(PADH, PADW);
-
   const param = {
     x: Math.floor(MIDW - ((width - 1) * size) / 2),
     y: Math.floor(MIDH - ((height - 1) * size) / 2),
