@@ -39,12 +39,10 @@ function gameSetup() {
   const bot_in = dim_in.get("bots");
   const sim = +dim_in.get("sim") || "no";
 
-  if (sim !== "no") {
+  if (sim !== "no" && INIT) {
+    INIT = false;
+    HIST = new Array(p_num).fill(0);
     SIM_STEPS = sim;
-    if (INIT) {
-      INIT = false;
-      HIST = new Array(p_num).fill(0);
-    }
   }
 
   bot_in.split(",").forEach((b) => bots.add(+b - 1));
@@ -108,6 +106,7 @@ function showLosses() {
   const total = HIST.reduce((a, b) => a + b);
   const hist_txt = HIST.map((e) => Math.floor(100 * (e / total))).join(" ");
   text(hist_txt, 20, 30);
+  text(`Left: ${SIM_STEPS}`, 20, 50);
 }
 
 function mouseClicked() {
