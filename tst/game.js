@@ -32,7 +32,7 @@ function gameSetup() {
   frameRate(60);
   MIDW = windowWidth / 2;
   MIDH = windowHeight / 2;
-  PCLRS = [color(20, 20, 160), color(160, 20, 20), color(20, 160, 20)];
+  PCLRS = [color(234, 51, 35), color(0, 4, 245), color(55, 126, 127)];
 
   const width = +dim_in.get("width") || 10;
   const height = +dim_in.get("height") || 15;
