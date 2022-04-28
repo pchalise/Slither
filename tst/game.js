@@ -102,12 +102,18 @@ function showLosses() {
   textSize(20);
   textAlign(LEFT);
   stroke(250);
-  strokeWeight(1);
+  strokeWeight(0);
   fill(250);
   const total = HIST.reduce((a, b) => a + b);
-  const hist_txt = HIST.map((e) => Math.floor(100 * (e / total))).join(" ");
-  text(hist_txt, 20, 30);
+  const loss_hist_txt = HIST.map((e) => Math.floor(100 * (e / total))).join(
+    " "
+  );
+  text(loss_hist_txt + " (LOSSES)", 20, 30);
   text(`Left: ${SIM_STEPS}`, 20, 50);
+  const win_hist_txt = HIST.map((e) => Math.floor(100 * (1 - e / total))).join(
+    " "
+  );
+  text(win_hist_txt + " (WINS)", 20, 70);
 }
 
 function mouseClicked() {
