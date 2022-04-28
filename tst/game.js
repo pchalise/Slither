@@ -161,5 +161,6 @@ function endGame() {
   stroke(0);
   strokeWeight(4);
   fill(PCLRS[Math.min(LOSER, PCLRS.length - 1)]);
-  text(`${LOSER + 1} loses!`, windowWidth / 2, windowHeight / 2);
+  const loser_text = (bots.has(LOSER) ? "Computer " : "") + (LOSER + 1);
+  text(`${loser_text} loses!`, windowWidth / 2, windowHeight / 2);
 }
