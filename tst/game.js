@@ -32,7 +32,7 @@ function gameSetup() {
   frameRate(60);
   MIDW = windowWidth / 2;
   MIDH = windowHeight / 2;
-  PCLRS = [color(234, 51, 35), color(0, 4, 245), color(55, 126, 127)];
+  PCLRS = [color(244, 92, 78), color(71, 125, 239), color(55, 126, 127)];
 
   const width = +dim_in.get("width") || 10;
   const height = +dim_in.get("height") || 15;
@@ -102,11 +102,13 @@ function showLosses() {
   textSize(20);
   textAlign(LEFT);
   stroke(250);
-  strokeWeight(1);
+  strokeWeight(0);
   fill(250);
   const total = HIST.reduce((a, b) => a + b);
-  const hist_txt = HIST.map((e) => Math.floor(100 * (e / total))).join(" ");
-  text(hist_txt, 20, 30);
+  const loss_hist_txt = HIST.map((e) => Math.floor(100 * (e / total))).join(
+    " "
+  );
+  text(loss_hist_txt, 20, 30);
   text(`Left: ${SIM_STEPS}`, 20, 50);
 }
 
@@ -155,5 +157,6 @@ function endGame() {
   stroke(0);
   strokeWeight(4);
   fill(PCLRS[Math.min(LOSER, PCLRS.length - 1)]);
-  text(`${LOSER + 1} loses!`, windowWidth / 2, windowHeight / 2);
+  const loser_text = (bots.has(LOSER) ? "Computer " : "") + (LOSER + 1);
+  text(`${loser_text} loses!`, windowWidth / 2, windowHeight / 2);
 }
